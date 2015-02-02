@@ -11,7 +11,7 @@ Installation
 
 Put this line in your Gemfile:
 
-    gem 'kaminari'
+    gem 'vitrage'
 
 Then run `bundle install`.
 
