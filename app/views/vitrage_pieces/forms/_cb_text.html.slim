@@ -1,0 +1,22 @@
+- content_block = content_block || (item.new_record? ? nil : item.content_block)
+
+- is_new_form = !content_block || content_block.new_record?
+
+- if is_new_form
+  - form_url = content_blocks_path
+  - form_method = :post
+- else
+  - form_url = content_block_path(content_block.id)
+  - form_method = :patch
+
+.wrap
+  = semantic_form_for item, url: form_url, method: form_method, remote: true do |f|
+    = f.inputs
+      = f.input :body, input_html: { rows: 2 }
+    - if is_new_form
+      = hidden_field_tag :kind, item.class.name.demodulize, id: nil
+      = hidden_field_tag :owner_type, params[:owner_type], id: nil
+      = hidden_field_tag :owner_id, params[:owner_id], id: nil
+    = f.actions do
+      = f.action :submit, as: :button
+      = f.action :cancel, as: :link
