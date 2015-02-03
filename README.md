@@ -36,11 +36,11 @@ Add to any models you want to use vitrage content pieces line:
 
 Add render call to the `show` view:
 
-    <%= render partial: 'vitrage/show', locals: { owner: @object } %>
+    <%= show_vitrage_for @object %>
 
 Add render call to the `edit` view:
 
-    <%= render partial: 'vitrage/edit', locals: { owner: @object } %>
+    <%= edit_vitrage_for @object %>
 
 
 Add content piece
@@ -53,10 +53,10 @@ Describes process of creating simple content piece only with text field.
 
 The generator adds these files:
 
-    app/models/vitrage/vtpc_text.rb
-    app/views/vitrage/_vtpc_text.html.erb
-    app/views/vitrage/forms/_vtpc_text.html.erb
-    db/migrate/[timestamp]_create_vtpc_texts.rb
+    app/models/vitrage/vtrp_text.rb
+    app/views/vitrage/_vtrp_text.html.erb
+    app/views/vitrage/forms/_vtrp_text.html.erb
+    db/migrate/[timestamp]_create_vtrp_texts.rb
 
 Migrate your database: `bin/rake db:migrate`
 

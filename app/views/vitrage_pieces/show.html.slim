@@ -1,1 +1,1 @@
-= render partial: "#{@item.class.name.underscore}", locals: { item: @item }
+= render partial: "vitrage/#{@item.class.name.demodulize.underscore}", locals: { item: @item }

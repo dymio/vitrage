@@ -1,1 +1,1 @@
-= render partial: "content_blocks/forms/#{@item.class.name.demodulize.underscore}", locals: { item: @item, content_block: @content_block }
+= render partial: "vitrage/#{@item.class.name.demodulize.underscore}_form", locals: { item: @item, vitrage_piece: @vitrage_piece }
