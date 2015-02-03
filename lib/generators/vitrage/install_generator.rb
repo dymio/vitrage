@@ -2,8 +2,10 @@ require 'rails/generators/active_record'
 
 module Vitrage
   module Generators
-    class InstallGenerator < Rails::Generators::Base
+    class InstallGenerator < ActiveRecord::Generators::Base
       desc "Create the necessary migration and model for Vitrage"
+
+      argument :name, type: :string, default: "VitragePiece" # TODO we don't needs name
 
       source_root File.expand_path("../templates", __FILE__)
 

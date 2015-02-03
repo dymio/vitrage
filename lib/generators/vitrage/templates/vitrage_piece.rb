@@ -4,7 +4,7 @@ class VitragePiece < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
   belongs_to :item, polymorphic: true, dependent: :destroy
 
-  default_scope :ordered, -> { order(ordn: :asc, id: :asc) }
+  default_scope -> { order(ordn: :asc, id: :asc) }
 
-  BLOCKS_KINDS = [ 'CbText', 'CbImage' ]
+  PIECE_KINDS = [  ] # add items class names
 end
