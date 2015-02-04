@@ -79,6 +79,8 @@ Add styles for add new block button:
 
     .vtrg-new-block-kinds .vtrg-text { background: red; }
 
+Do not forget about piece view partials.
+
 
 Custom Pieces Controller
 ------------------------

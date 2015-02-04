@@ -72,7 +72,5 @@ $vtrg-act-color: #c19a6b; // Цвет увядших листьев
     cursor: pointer;
     &:hover { opacity: 0.6; }
     &:active { opacity: 1; }
-    &.vtrg-text { background: image-url('vitrage_pieces/cb_text.png') no-repeat center center; background-size: cover; }
-    &.vtrg-image { background: image-url('vitrage_pieces/cb_image.png') no-repeat center center; background-size: cover; }
   }
 }

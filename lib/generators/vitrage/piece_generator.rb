@@ -33,7 +33,7 @@ module Vitrage
 
       # override ActiveRecord::Generators::ModelGenerator method
       def create_model_file
-        template 'piece_item.rb', File.join('app/models/vitrage/', class_path, "#{file_name}.rb")
+        template 'piece_item.rb', File.join('app/models/vitrage_items/', class_path, "#{file_name}.rb")
       end
 
       def create_necessary_views
