@@ -1,12 +1,12 @@
-- item = vitrage_piece.item
+- piece = piece || (item.new_record? ? nil : item.piece)
 
-.cb-edit-wrapper data-id=vitrage_piece.id
-  - ['top', 'bottom'].each do |position_class|
-    .cb-edit-control class=position_class
-      a href="javascript:void(0)" role="button" rel="edit" title="Редактировать" = evil_icon 'ei-pencil', size: "m"
-      a href="javascript:void(0)" role="button" rel="destroy" title="Удалить" = evil_icon 'ei-trash', size: "m"
-      / a href="javascript:void(0)" role="button" rel="add_up" title="Добавить блок сверху" = evil_icon 'ei-arrow-up', size: "s"
-      / a href="javascript:void(0)" role="button" rel="add_down" title="Добавить блок снизу" = evil_icon 'ei-arrow-down', size: "s"
-  .cb-edit-block-cover = evil_icon 'ei-spinner', size: "m"
-  .cb-edit-body
-    = render partial: "vitrage/#{item.class.name.demodulize.underscore}", locals: { item: item }
+- if piece && !piece.new_record?
+  - form_url = Rails.application.routes.url_helpers.vitrage_piece_path(piece.id)
+  - form_method = :patch
+- else
+  - form_url = Rails.application.routes.url_helpers.vitrage_pieces_path
+  - form_method = :post
+
+// TODO make helper for building forms in the item partial (like the `form` method of active_admin)
+
+= render partial: "vitrage/#{item.class.name.demodulize.underscore}_form", locals: { item: item, form_url: form_url, form_method: form_method }
