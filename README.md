@@ -40,8 +40,8 @@ Require vitrage css and evil icons in ypur css file (`application.css` by defaul
     *= require vitrage/vitrage
 
 
-Use vitrage content pieces for your model
------------------------------------------
+Use vitrage content pieces for your model and views
+---------------------------------------------------
 
 Add to any models you want to use vitrage content pieces line:
 
