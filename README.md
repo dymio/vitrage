@@ -5,6 +5,8 @@ Vitrage allows store and manage your Rails application web-pages content as sepa
 
 <img src="http://www.vitroart.ru/upload/information_system_35/4/2/2/item_422/information_items_1242584051.jpg" alt="vitrage of glass" height="600" width="379">
 
+[![Gem Version](https://badge.fury.io/rb/vitrage.svg)](http://badge.fury.io/rb/vitrage)
+[![vitrage API Documentation](https://www.omniref.com/ruby/gems/vitrage.png)](https://www.omniref.com/ruby/gems/vitrage)
 
 Installation
 ------------
