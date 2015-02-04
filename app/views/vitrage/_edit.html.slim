@@ -6,4 +6,4 @@
   .cb-new-block-kinds
     span = evil_icon 'ei-plus', size: "l"
     - VitragePiece::PIECE_KINDS.each do |vtrp_kind|
-      = link_to "", new_vitrage_piece_path(kind: vtrp_kind, owner_type: owner.class.name, owner_id: owner.id), role: "button", class: vtrp_kind.underscore.dasherize, remote: true
+      = link_to "", Rails.application.routes.url_helpers.new_vitrage_piece_path(kind: vtrp_kind, owner_type: owner.class.name, owner_id: owner.id), role: "button", class: vtrp_kind.underscore.dasherize, remote: true
