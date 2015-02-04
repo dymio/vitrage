@@ -70,7 +70,7 @@ $(document).ready ->
       wrappers.find(".vtrg-edit-control a[rel=destroy]").click (evnt) ->
         evnt.preventDefault()
         $editWrapper = $(@).closest(".vtrg-edit-wrapper")
-        if confirm("Вы уверены, что хотите удалить этот блок контента?")
+        if confirm("Are you sure?")
           toggleEditorBlocker $editWrapper, true
           $.ajax
             url: "/vitrage/pieces/" + $editWrapper.data("id")

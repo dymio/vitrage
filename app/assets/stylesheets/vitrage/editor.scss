@@ -35,21 +35,6 @@ $vtrg-act-color: #c19a6b; // Цвет увядших листьев
     fill: blue;
   }
   &.blocked .vtrg-edit-block-cover { display: block; }
-
-  // ==== forms ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
-  .inputs, .actions { margin: 2em 0; }
-  .inputs {
-    label, input, textarea { vertical-align: top; }
-    label {
-      display: inline-block;
-      margin-right: 2%;
-      width: 12%;
-    }
-    input, textarea { width: 80%; }
-    & > ol > li {
-      margin-bottom: 1em;
-    }
-  }
 }
 
 // ==== add new block button ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
