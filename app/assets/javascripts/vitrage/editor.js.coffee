@@ -1,5 +1,5 @@
 $(document).ready ->
-  if $(".vtrg-edit-wrapper").length
+  if $(".vtrg-add-new-wrapper").length
 
     toggleEditorBlocker = ($editWrapper, act) ->
       $editWrapper.toggleClass 'blocked', act

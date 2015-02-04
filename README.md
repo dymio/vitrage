@@ -36,7 +36,6 @@ Require js in your js file (`application.js` by default):
 
 Require vitrage css and evil icons in ypur css file (`application.css` by default):
 
-    *= require evil-icons
     *= require vitrage/vitrage
 
 
@@ -75,6 +74,10 @@ Migrate your database: `bin/rake db:migrate`
 
 Add name of content piece model to `ITEM_KINDS` array constant
 of VitragePiece model.
+
+Add styles for add new block button:
+
+    .vtrg-new-block-kinds .vtrg-text { background: red; }
 
 
 Custom Pieces Controller
