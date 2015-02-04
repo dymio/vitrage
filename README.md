@@ -73,7 +73,7 @@ The generator adds these files:
 
 Migrate your database: `bin/rake db:migrate`
 
-Add name of content piece model to `BLOCKS_KINDS` array constant
+Add name of content piece model to `ITEM_KINDS` array constant
 of VitragePiece model.
 
 

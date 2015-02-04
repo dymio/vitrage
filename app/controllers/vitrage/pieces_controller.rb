@@ -13,7 +13,7 @@ module Vitrage
       unless item_kind && VitragePiece::ITEM_KINDS.include?(item_kind)
         item_kind = VitragePiece::ITEM_KINDS.first
       end
-      @item = VitragePieces.const_get(item_kind).new
+      @item = VitrageItems.const_get(item_kind).new
       
       respond_to do |format|
         format.html { render layout: false }
@@ -49,7 +49,7 @@ module Vitrage
 
       # create item
       unless wrong_params_here
-        @item = VitragePieces.const_get(params[:kind]).new
+        @item = VitrageItems.const_get(params[:kind]).new
         @item.assign_attributes vitrage_piece_item_params
         wrong_params_here = true unless @item.save
       end
