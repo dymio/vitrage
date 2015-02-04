@@ -1,5 +1,5 @@
 <%= semantic_form_for item, url: form_url, method: form_method, remote: true do |f| %>
-  <%= f.inputs %>
+  <%= f.inputs do %>
     <%# Add inputs of your piece item model here %>
     <%# f.input :text, input_html: { rows: 2 } # as example %>
   <% end -%>
