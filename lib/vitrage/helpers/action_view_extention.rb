@@ -5,16 +5,16 @@ module Vitrage
     #
     #   <%= show_vitrage_for @page %>
     #
-    def show_vitrage_for(owner_object)
-      render partial: 'vitrage/show', locals: { owner: owner_object }
+    def show_vitrage_for(owner)
+      render partial: 'vitrage/show', locals: { owner: owner }
     end
 
     # A helper that renders the show view of vitrage
     #
     #   <%= edit_vitrage_for @page %>
     #
-    def edit_vitrage_for(owner_object)
-      render partial: 'vitrage/edit', locals: { owner: owner_object }
+    def edit_vitrage_for(owner)
+      render partial: 'vitrage/edit', locals: { owner: owner }
     end
   end
 end

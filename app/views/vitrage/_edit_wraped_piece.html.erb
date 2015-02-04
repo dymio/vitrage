@@ -1,6 +1,6 @@
-<% item = piece.item %>
+<% piece = piece || slot.piece %>
 
-<div class="vtrg-edit-wrapper" data-id="<%= piece.id %>">
+<div class="vtrg-edit-wrapper" data-id="<%= slot.id %>">
   <% ['top', 'bottom'].each do |position_class| %>
     <div class="vtrg-edit-control <%= position_class %>">
       <a href="javascript:void(0)" role="button" rel="edit" title="<%= t('vitrage.edit') %>">
@@ -13,6 +13,6 @@
   <% end %>
   <div class="vtrg-edit-block-cover"><%= evil_icon 'ei-spinner', size: "m" %></div>
   <div class="vtrg-edit-body">
-    <%= render partial: "vitrage/#{item.class.name.demodulize.underscore}", locals: { item: item } %>
+    <%= render partial: "vitrage/#{piece.class.name.demodulize.underscore}", locals: { piece: piece } %>
   </div>
 </div>

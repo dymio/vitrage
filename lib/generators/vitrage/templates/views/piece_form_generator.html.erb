@@ -1,9 +1,9 @@
-<%= semantic_form_for item, url: form_url, method: form_method, remote: true do |f| %>
+<%= semantic_form_for piece, url: form_url, method: form_method, remote: true do |f| %>
   <%= f.inputs do %>
-    <%# Add inputs of your piece item model here %>
-    <%# f.input :text, input_html: { rows: 2 } # as example %>
+    <%# Add inputs of your piece model here %>
+    <%# f.input :body, input_html: { rows: 2 } %>
   <% end -%>
-  <%= hidden_field_tag :kind, item.class.name.demodulize, id: nil %>
+  <%= hidden_field_tag :kind, piece.class.name.demodulize, id: nil %>
   <%= hidden_field_tag :owner_type, params[:owner_type], id: nil %>
   <%= hidden_field_tag :owner_id, params[:owner_id], id: nil %>
   <%= f.actions do %>

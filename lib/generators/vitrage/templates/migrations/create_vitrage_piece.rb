@@ -4,8 +4,6 @@ class <%= migration_class_name %> < ActiveRecord::Migration
 <% attributes.each do |attribute| -%>
 <% if attribute.password_digest? -%>
       t.string :password_digest<%= attribute.inject_options %>
-<% elsif false -%>
-      t.string :<%= attribute.name %><%= attribute.inject_options %>
 <% else -%>
       t.<%= attribute.type %> :<%= attribute.name %><%= attribute.inject_options %>
 <% end -%>

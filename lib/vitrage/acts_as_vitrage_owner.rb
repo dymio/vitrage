@@ -2,12 +2,11 @@ module Vitrage
   module ActsAsVitrageOwner
     extend ActiveSupport::Concern
  
-    # included do
-    # end
- 
     module ClassMethods
-      def acts_as_vitrage_owner(options = {})
-        has_many :vitrage_pieces, as: :owner, dependent: :destroy
+      def acts_as_vitrage_owner
+        has_many :vitrage_slots, class_name: "VitrageOwnersPiecesSlot",
+                                 as: :owner,
+                                 dependent: :destroy
       end
     end
   end

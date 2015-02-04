@@ -1,12 +1,12 @@
-<% piece = piece || (item.new_record? ? nil : item.vitrage_piece) %>
+<% slot = slot || (piece.new_record? ? nil : piece.slot) %>
 
-<% if piece && !piece.new_record? %>
-  <% form_url = Rails.application.routes.url_helpers.vitrage_piece_path(piece.id) %>
+<% if slot && !slot.new_record? %>
+  <% form_url = Rails.application.routes.url_helpers.vitrage_piece_path(slot.id) %>
   <% form_method = :patch %>
 <% else %>
   <% form_url = Rails.application.routes.url_helpers.vitrage_pieces_path %>
   <% form_method = :post %>
 <% end %>
 
-<%#TODO make helper for building forms in the item partial (like the `form` method of active_admin) %>
-<%= render partial: "vitrage/#{item.class.name.demodulize.underscore}_form", locals: { item: item, form_url: form_url, form_method: form_method } %>
+<%#TODO make helper for building forms in the piece partial (like the `form` method of active_admin) %>
+<%= render partial: "vitrage/#{piece.class.name.demodulize.underscore}_form", locals: { piece: piece, form_url: form_url, form_method: form_method } %>

@@ -28,17 +28,17 @@ module Vitrage
       def create_migration_file
         return unless options[:migration] && options[:parent].nil?
         attributes.each { |a| a.attr_options.delete(:index) if a.reference? && !a.has_index? } if options[:indexes] == false
-        migration_template "migrations/create_piece_item.rb", "db/migrate/create_#{table_name}.rb"
+        migration_template "migrations/create_vitrage_piece.rb", "db/migrate/create_#{table_name}.rb"
       end
 
       # override ActiveRecord::Generators::ModelGenerator method
       def create_model_file
-        template 'piece_item.rb', File.join('app/models/vitrage_items/', class_path, "#{file_name}.rb")
+        template 'vitrage_piece.rb', File.join('app/models/vitrage_pieces/', class_path, "#{file_name}.rb")
       end
 
       def create_necessary_views
-        copy_file 'views/item_show_generator.html.erb', File.join('app/views/vitrage/', "_#{file_name}.html.erb")
-        copy_file 'views/item_form_generator.html.erb', File.join('app/views/vitrage/', "_#{file_name}_form.html.erb")
+        copy_file 'views/piece_show_generator.html.erb', File.join('app/views/vitrage/', "_#{file_name}.html.erb")
+        copy_file 'views/piece_form_generator.html.erb', File.join('app/views/vitrage/', "_#{file_name}_form.html.erb")
       end
     end
   end

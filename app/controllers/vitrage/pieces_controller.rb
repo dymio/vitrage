@@ -9,11 +9,12 @@ module Vitrage
     end
    
     def new
-      item_kind = params[:kind]
-      unless item_kind && VitragePiece::ITEM_KINDS.include?(item_kind)
-        item_kind = VitragePiece::ITEM_KINDS.first
+      piece_class = params[:kind]
+      unless piece_class &&
+             VitrageOwnersPiecesSlot::PIECE_CLASSES_STRINGS.include?(piece_class)
+        piece_class = VitrageOwnersPiecesSlot::PIECE_CLASSES_STRINGS.first
       end
-      @item = VitrageItems.const_get(item_kind).new
+      @piece = VitragePieces.const_get(piece_class).new
       
       respond_to do |format|
         format.html { render layout: false }
@@ -31,7 +32,7 @@ module Vitrage
 
       # check existance of params
       unless params[:kind] &&
-             VitragePiece::ITEM_KINDS.include?(params[:kind]) &&
+             VitrageOwnersPiecesSlot::PIECE_CLASSES_STRINGS.include?(params[:kind]) &&
              params[:owner_type] &&
              params[:owner_id]
         wrong_params_here = true
@@ -47,19 +48,19 @@ module Vitrage
         end
       end
 
-      # create item
+      # create piece
       unless wrong_params_here
-        @item = VitrageItems.const_get(params[:kind]).new
-        @item.assign_attributes vitrage_piece_item_params
-        wrong_params_here = true unless @item.save
+        @piece = VitragePieces.const_get(params[:kind]).new
+        @piece.assign_attributes vitrage_piece_params
+        wrong_params_here = true unless @piece.save
       end
 
-      # create vitrage piece
+      # create vitrage slot
       unless wrong_params_here
-        @piece = VitragePiece.new owner: @owner, item: @item
-        unless @piece.save
+        @slot = VitrageOwnersPiecesSlot.new owner: @owner, piece: @piece
+        unless @slot.save
           wrong_params_here = true
-          @item.destroy
+          @piece.destroy
         end
       end
 
@@ -76,7 +77,7 @@ module Vitrage
     end
    
     def update
-      @piece.item.update vitrage_piece_item_params
+      @piece.update vitrage_piece_params
 
       respond_to do |format|
         format.html { render action: "show", layout: false }
@@ -84,8 +85,8 @@ module Vitrage
     end
    
     def destroy
-      @piece = VitragePiece.find params[:id]
-      @piece.destroy
+      @slot = VitrageOwnersPiecesSlot.find params[:id]
+      @slot.destroy
 
       respond_to do |format|
         format.html { render text: "" }
@@ -95,12 +96,13 @@ module Vitrage
     private
 
     def find_vitrage_piece
-      @piece = VitragePiece.find params[:id]
-      @item = @piece.item
+      @slot = VitrageOwnersPiecesSlot.find params[:id]
+      @piece = @slot.piece
     end
 
-    def vitrage_piece_item_params
-      params.require(@item.class.name.underscore.gsub('/', '_').to_sym).permit @item.params_for_permit
+    def vitrage_piece_params
+      params.require(@piece.class.name.underscore.gsub('/', '_').to_sym).
+             permit @piece.params_for_permit
     end
   end
 end
