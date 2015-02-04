@@ -24,6 +24,10 @@ The generator adds these files:
     app/models/vitrage_piece.rb
     db/migrate/[timestamp]_create_vitrage_pieces.rb
 
+and line to the `routes.rb` file:
+
+    Vitrage.routes(self)
+
 Now, migrate your database: `bin/rake db:migrate`
 
 
@@ -62,6 +66,23 @@ Migrate your database: `bin/rake db:migrate`
 
 Add name of content piece model to `BLOCKS_KINDS` array constant
 of VitragePiece model.
+
+
+Custom Pieces Controller
+------------------------
+
+`PiecesController` have actions for vitrage pieces.
+If you need to overwrite controller create new controller inherited from `Vitrage::PiecesController`, as example:
+
+    class VitragePiecesController < Vitrage::PiecesController
+      # add devise authorization
+      before_action :authenticate_admin_user!
+    end
+
+And add parameter `controller` to routes method call with underscored and pluralized controller name:
+
+    Vitrage.routes(self, controller: 'vitrage_pieces')
+
 
 
 License

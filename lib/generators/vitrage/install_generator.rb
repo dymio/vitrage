@@ -16,6 +16,10 @@ module Vitrage
       def create_vitrage_piece_migration
         migration_template 'migrations/create_vitrage_pieces.rb', 'db/migrate/create_vitrage_pieces.rb'
       end
+
+      def add_routes
+        route "Vitrage.routes(self)"
+      end
     end
   end
 end

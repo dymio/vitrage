@@ -1,6 +1,5 @@
 module Vitrage
   class PiecesController < ApplicationController
-    before_action :authenticate_admin_user! # TODO remove to child controller
     before_action :find_vitrage_piece, only: [:show, :edit, :update]
 
     def show
