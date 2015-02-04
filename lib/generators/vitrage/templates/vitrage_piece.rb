@@ -6,5 +6,5 @@ class VitragePiece < ActiveRecord::Base
 
   default_scope -> { order(ordn: :asc, id: :asc) }
 
-  PIECE_KINDS = [  ] # add items class names
+  ITEM_KINDS = [  ] # add items class names # TODO move to yml config
 end
