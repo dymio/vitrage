@@ -2,8 +2,8 @@
 - owner.vitrage_pieces.each do |piece|
   = render partial: "vitrage/edit_wraped_piece", locals: { piece: piece }
 
-.cb-add-new-wrapper
-  .cb-new-block-kinds
+.vtrg-add-new-wrapper
+  .vtrg-new-block-kinds
     span = evil_icon 'ei-plus', size: "l"
     - VitragePiece::ITEM_KINDS.each do |item_kind|
       = link_to "", Rails.application.routes.url_helpers.new_vitrage_piece_path(kind: item_kind, owner_type: owner.class.name, owner_id: owner.id), role: "button", class: item_kind.underscore.dasherize, remote: true

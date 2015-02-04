@@ -30,6 +30,15 @@ and line to the `routes.rb` file:
 
 Now, migrate your database: `bin/rake db:migrate`
 
+Require js in your js file (`application.js` by default):
+
+    //= require vitrage/vitrage
+
+Require vitrage css and evil icons in ypur css file (`application.css` by default):
+
+    *= require evil-icons
+    *= require vitrage/vitrage
+
 
 Use vitrage content blocks for your model
 -----------------------------------------

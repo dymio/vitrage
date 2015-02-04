@@ -1,0 +1,78 @@
+$vtrg-act-color: #c19a6b; // Цвет увядших листьев
+@mixin activated_state { box-shadow: 0 0 0 2px $vtrg-act-color inset; }
+
+.vtrg-edit-wrapper {
+  position: relative;
+  min-height: 64px;
+
+  // clearfix
+  &:before, &:after { display: table; content: " "; }
+  &:after { clear: both; }
+
+  // ==== controls block ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+  .vtrg-edit-control {
+    display: none;
+    position: absolute;
+    &.top { top: 0; left: 0; }
+    &.bottom { right: 0; bottom: 0; }
+    padding: 4px;
+    background: $vtrg-act-color;
+    a { text-decoration: none; &:hover { fill: #fff; } }
+    .icon { vertical-align: middle; }
+  }
+  &:hover    { @include activated_state; .vtrg-edit-control { display: block; } }
+  &.editmode { @include activated_state; .vtrg-edit-control { display: none; } }
+  &.blocked  {                           .vtrg-edit-control { display: none; } }
+
+  // ==== block cover overlay ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+  .vtrg-edit-block-cover {
+    display: none;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: #eee;
+    opacity: 0.8;
+    text-align: center;
+    fill: blue;
+  }
+  &.blocked .vtrg-edit-block-cover { display: block; }
+
+  // ==== forms ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+  .inputs, .actions { margin: 2em 0; }
+  .inputs {
+    label, input, textarea { vertical-align: top; }
+    label {
+      display: inline-block;
+      margin-right: 2%;
+      width: 12%;
+    }
+    input, textarea { width: 80%; }
+    & > ol > li {
+      margin-bottom: 1em;
+    }
+  }
+}
+
+// ==== add new block button ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+.vtrg-add-new {
+  display: block;
+  text-align: center;
+  &:hover { background: $vtrg-act-color + #333; fill: #666; }
+  &:active { fill: #000; }
+}
+
+.vtrg-new-block-kinds {
+  text-align: center;
+  span { display: inline-block; margin-right: 6px; }
+  span, a { vertical-align: middle; }
+  a {
+    display: inline-block;
+    margin: 0 4px;
+    width: 64px;
+    height: 64px;
+    cursor: pointer;
+    &:hover { opacity: 0.6; }
+    &:active { opacity: 1; }
+    &.vtrg-text { background: image-url('vitrage_pieces/cb_text.png') no-repeat center center; background-size: cover; }
+    &.vtrg-image { background: image-url('vitrage_pieces/cb_image.png') no-repeat center center; background-size: cover; }
+  }
+}
