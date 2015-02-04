@@ -21,8 +21,8 @@ After installing the gem, you need to run the generator.
 
 The generator adds these files:
 
-    app/models/vitrage_piece.rb
-    db/migrate/[timestamp]_create_vitrage_pieces.rb
+    app/models/vitrage_owners_pieces_slot.rb
+    db/migrate/[timestamp]_create_vitrage_owners_pieces_slots.rb
 
 and line to the `routes.rb` file:
 
@@ -34,7 +34,7 @@ Require js in your js file (`application.js` by default):
 
     //= require vitrage/vitrage
 
-Require vitrage css and evil icons in ypur css file (`application.css` by default):
+Require vitrage css in your css file (`application.css` by default):
 
     *= require vitrage/vitrage
 
@@ -65,15 +65,16 @@ Describes process of creating simple content piece only with text field.
 
 The generator adds these files:
 
-    app/models/vitrage/vtrp_text.rb
-    app/views/vitrage/_vtrp_text.html.erb
-    app/views/vitrage/forms/_vtrp_text.html.erb
-    db/migrate/[timestamp]_create_vtrp_texts.rb
+    db/migrate/[timestamp]_create_vtrg_texts.rb
+    app/models/vitrage_pieces/vtrg_text.rb
+    app/views/vitrage/_vtrg_text.html.erb
+    app/views/vitrage/_vtrg_text_form.html.erb
+    # ... and more
 
 Migrate your database: `bin/rake db:migrate`
 
-Add name of content piece model to `ITEM_KINDS` array constant
-of VitragePiece model.
+Add name of content piece model to `PIECE_CLASSES_STRINGS` array constant
+of VitrageOwnersPiecesSlot model.
 
 Add styles for add new block button:
 
@@ -86,10 +87,10 @@ Custom Pieces Controller
 ------------------------
 
 `PiecesController` have actions for vitrage pieces.
-If you need to overwrite controller create new controller inherited from `Vitrage::PiecesController`, as example:
+If you need to override controller, create new controller, inherited from `Vitrage::PiecesController`:
 
     class VitragePiecesController < Vitrage::PiecesController
-      # add devise authorization
+      # add devise authorization as option
       before_action :authenticate_admin_user!
     end
 
