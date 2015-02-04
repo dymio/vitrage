@@ -1,0 +1,3 @@
+<% owner.vitrage_pieces.each do |vtrp| %>
+  <%= render partial: "vitrage/#{vtrp.item.class.name.demodulize.underscore}", locals: { item: vtrp.item } %>
+<% end %>

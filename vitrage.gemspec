@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", ">=3.2"
   s.add_dependency "sass-rails"
   s.add_dependency "coffee-rails"
+  s.add_dependency "jquery-rails"
   s.add_dependency "formtastic", ">=2"
   s.add_dependency "evil_icons"
 
