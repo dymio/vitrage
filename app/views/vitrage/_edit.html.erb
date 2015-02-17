@@ -5,7 +5,7 @@
 
 <div class="vtrg-add-new-wrapper">
   <div class="vtrg-new-block-kinds">
-    <span><%= evil_icon 'ei-plus', size: "l" %></span>
+    <span><%= evil_icon 'ei-plus', size: "m" %></span>
     <% VitrageOwnersPiecesSlot::PIECE_CLASSES_STRINGS.each do |piece_class_string| %>
       <%= link_to "", Rails.application.routes.url_helpers.new_vitrage_piece_path(kind: piece_class_string, owner_type: owner.class.name, owner_id: owner.id), role: "button", class: piece_class_string.underscore.dasherize, remote: true %>
     <% end %>
