@@ -13,6 +13,7 @@ $vtrg-act-color: #c19a6b; // Цвет увядших листьев
   .vtrg-edit-control {
     display: none;
     position: absolute;
+    z-index: 99;
     &.top { top: 0; left: 0; }
     &.bottom { right: 0; bottom: 0; }
     padding: 4px;
