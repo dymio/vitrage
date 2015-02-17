@@ -1,6 +1,8 @@
 $(document).ready ->
   if $(".vtrg-add-new-wrapper").length
 
+    event_provider = $(".vtrg-add-new-wrapper")
+
     toggleEditorBlocker = ($editWrapper, act) ->
       $editWrapper.toggleClass 'blocked', act
 
@@ -10,6 +12,7 @@ $(document).ready ->
         $editWrapper.removeClass "editmode"
         $editWrapper.children(".vtrg-edit-body").html viewdata
         toggleEditorBlocker $editWrapper, false
+        event_provider.trigger "vitrageshowed"
       else
         $.ajax
           url: "/vitrage/pieces/" + $editWrapper.data("id")
@@ -30,6 +33,7 @@ $(document).ready ->
 
       $blockForm.on "ajax:success", (evnt, data, textStatus, jqXHR) ->
         restoreViewState $(@).closest(".vtrg-edit-wrapper"), data
+        event_provider.trigger "vitrageupdated"
       # $blockForm.on "ajax:error"
       # $blockForm.on "ajax:complete"
 
@@ -59,6 +63,7 @@ $(document).ready ->
             $editWrapper.children(".vtrg-edit-body").html data
             coverEditFormActions $editWrapper
             toggleEditorBlocker $editWrapper, false
+            event_provider.trigger "vitrageedit"
           # error: null
         return
       return
@@ -78,6 +83,7 @@ $(document).ready ->
             dataType: "html"
             success: (data, textStatus, jqXHR) ->
               $editWrapper.remove()
+              event_provider.trigger "vitragedestroyed"
             # error: null
         return
       return
@@ -104,6 +110,7 @@ $(document).ready ->
         clwr.remove()
         initDestroyControl brandNewWrapper
         initEditControl brandNewWrapper
+        event_provider.trigger "vitragecreated"
       # $blockForm.on "ajax:error"
       $blockForm.on "ajax:complete", ->
         toggleEditorBlocker $(@).closest(".vtrg-edit-wrapper"), false
@@ -122,5 +129,6 @@ $(document).ready ->
     $createAnchors.on "ajax:success", (evnt, data, textStatus, jqXHR) ->
       $(".vtrg-add-new-wrapper").before data
       coverNewFormActions $(".vtrg-edit-wrapper:last")
+      event_provider.trigger "vitragenew"
     # $createAnchors.on "ajax:error"
     # $createAnchors.on "ajax:complete"
