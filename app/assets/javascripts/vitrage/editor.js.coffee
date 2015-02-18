@@ -125,8 +125,9 @@ $(document).ready ->
     $createAnchors = $(".vtrg-new-block-kinds a")
     $createAnchors.on "ajax:success", (evnt, data, textStatus, jqXHR) ->
       $(".vtrg-add-new-wrapper").before data
-      coverNewFormActions $(".vtrg-edit-wrapper:last")
-      event_provider.trigger "vitragenew"
+      $editWrapper = $(".vtrg-edit-wrapper:last")
+      coverNewFormActions $editWrapper
+      event_provider.trigger "vitragenew", [ $editWrapper ]
     
     # $createAnchors.on "ajax:error" # TODO
     # $createAnchors.on "ajax:complete" # TODO
