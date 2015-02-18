@@ -12,7 +12,7 @@ $(document).ready ->
         $editWrapper.removeClass "editmode"
         $editWrapper.children(".vtrg-edit-body").html viewdata
         toggleEditorBlocker $editWrapper, false
-        event_provider.trigger "vitrageshowed"
+        event_provider.trigger "vitrageshowed", [ $editWrapper[0] ]
       else
         $.ajax
           url: "/vitrage/pieces/" + $editWrapper.data("id")
@@ -32,8 +32,8 @@ $(document).ready ->
         return true # do your work buddy
 
       $blockForm.on "ajax:success", (evnt, data, textStatus, jqXHR) ->
-        restoreViewState $(@).closest(".vtrg-edit-wrapper"), data
         event_provider.trigger "vitrageupdated"
+        restoreViewState $(@).closest(".vtrg-edit-wrapper"), data
       # $blockForm.on "ajax:error"
       # $blockForm.on "ajax:complete"
 
@@ -63,7 +63,7 @@ $(document).ready ->
             $editWrapper.children(".vtrg-edit-body").html data
             coverEditFormActions $editWrapper
             toggleEditorBlocker $editWrapper, false
-            event_provider.trigger "vitrageedit"
+            event_provider.trigger "vitrageedit", [ $editWrapper ]
           # error: null
         return
       return
