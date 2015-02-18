@@ -6,8 +6,8 @@ $(document).ready ->
     toggleEditorBlocker = ($editWrapper, act) ->
       $editWrapper.toggleClass 'blocked', act
 
-    # --- # --- VIEW --- # --- #
-    restoreViewState = ($editWrapper, viewdata) ->
+    # --- # --- SHOW --- # --- #
+    restoreShowState = ($editWrapper, viewdata) ->
       if viewdata
         $editWrapper.removeClass "editmode"
         $editWrapper.children(".vtrg-edit-body").html viewdata
@@ -19,8 +19,8 @@ $(document).ready ->
           # type: "GET"
           dataType: "html"
           success: (data, textStatus, jqXHR) ->
-            restoreViewState $editWrapper, data
-          # error: null
+            restoreShowState $editWrapper, data
+          # error: null # TODO
 
     # --- # --- UPDATE and cancel editing --- # --- #
     coverEditFormActions = ($editWrapper) ->
@@ -33,9 +33,10 @@ $(document).ready ->
 
       $blockForm.on "ajax:success", (evnt, data, textStatus, jqXHR) ->
         event_provider.trigger "vitrageupdated"
-        restoreViewState $(@).closest(".vtrg-edit-wrapper"), data
-      # $blockForm.on "ajax:error"
-      # $blockForm.on "ajax:complete"
+        restoreShowState $(@).closest(".vtrg-edit-wrapper")
+
+      # $blockForm.on "ajax:error" # TODO
+      # $blockForm.on "ajax:complete" # TODO
 
 
       # cover Cancel action
@@ -45,7 +46,7 @@ $(document).ready ->
         if clickedAnchorParentID && clickedAnchorParentID.substr(clickedAnchorParentID.length - 13) == "cancel_action"
           evnt.preventDefault()
           toggleEditorBlocker $editWrapper, true
-          restoreViewState $editWrapper
+          restoreShowState $editWrapper
           return false
 
     # --- # --- EDIT --- # --- #
@@ -56,7 +57,6 @@ $(document).ready ->
         toggleEditorBlocker $editWrapper, true
         $.ajax
           url: "/vitrage/pieces/" + $editWrapper.data("id") + "/edit"
-          # type: "GET"
           dataType: "html"
           success: (data, textStatus, jqXHR) ->
             $editWrapper.addClass "editmode"
@@ -64,7 +64,7 @@ $(document).ready ->
             coverEditFormActions $editWrapper
             toggleEditorBlocker $editWrapper, false
             event_provider.trigger "vitrageedit", [ $editWrapper ]
-          # error: null
+          # error: null # TODO
         return
       return
     # init edit control for all exists
@@ -84,7 +84,7 @@ $(document).ready ->
             success: (data, textStatus, jqXHR) ->
               $editWrapper.remove()
               event_provider.trigger "vitragedestroyed"
-            # error: null
+            # error: null # TODO
         return
       return
     # init destroy control for all exists
@@ -100,19 +100,16 @@ $(document).ready ->
         return true # do your work buddy
 
       $blockForm.on "ajax:success", (evnt, data, textStatus, jqXHR) ->
-        clwr = $(@).closest(".vtrg-edit-wrapper")
-        if $(@).data('remotipartSubmitted')
-          a = 12
-          console.log "ololo"
-        else
-          clwr.after data
-        brandNewWrapper = clwr.next()
-        clwr.remove()
-        initDestroyControl brandNewWrapper
-        initEditControl brandNewWrapper
-        event_provider.trigger "vitragecreated"
-      # $blockForm.on "ajax:error"
-      $blockForm.on "ajax:complete", ->
+        $editWrapper = $(@).closest(".vtrg-edit-wrapper")
+        $editWrapper.attr 'data-id', data
+        initDestroyControl $editWrapper
+        initEditControl $editWrapper
+        event_provider.trigger "vitragecreated", [ $editWrapper ]
+        restoreShowState $editWrapper
+      
+      # $blockForm.on "ajax:error" # TODO
+      
+      $blockForm.on "ajax:complete", (evnt, para1, para2) ->
         toggleEditorBlocker $(@).closest(".vtrg-edit-wrapper"), false
 
       # cover Cancel action
@@ -130,5 +127,6 @@ $(document).ready ->
       $(".vtrg-add-new-wrapper").before data
       coverNewFormActions $(".vtrg-edit-wrapper:last")
       event_provider.trigger "vitragenew"
-    # $createAnchors.on "ajax:error"
-    # $createAnchors.on "ajax:complete"
+    
+    # $createAnchors.on "ajax:error" # TODO
+    # $createAnchors.on "ajax:complete" # TODO

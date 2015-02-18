@@ -69,10 +69,11 @@ module Vitrage
           format.html { render text: "error", status: :unprocessable_entity }
         end
       else
-        # respond_to do |format|
-        #   format.html { render layout: false }
-        # end
-        render layout: false
+        respond_to do |format|
+          format.html { render layout: false }
+          format.js # for remotipart gem correct work (ajax multipart form)
+        end
+        # render layout: false
       end
     end
    
@@ -80,7 +81,8 @@ module Vitrage
       @piece.update vitrage_piece_params
 
       respond_to do |format|
-        format.html { render action: "show", layout: false }
+        format.html { render text: "" }
+        format.js { render text: "" }
       end
     end
    

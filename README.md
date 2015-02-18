@@ -34,7 +34,13 @@ Now, migrate your database: `bin/rake db:migrate`
 
 Require js in your js file (`application.js` by default):
 
+    //= require jquery
+    //= require jquery_ujs
+    //= require jquery.remotipart
     //= require vitrage/vitrage
+
+Vitrage needs jquery, jquery_ujs and jquery.remotipart for correct work.
+If you have this scripts already required, just skip inserting they strings.
 
 Require vitrage css in your css file (`application.css` by default):
 
