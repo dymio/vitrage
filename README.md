@@ -1,7 +1,7 @@
 Vitrage
 =======
 
-Vitrage allows store and manage your Rails application web-pages content as separated pieces of different types: text, image, slider, several-columned text etc. Pieces are objects of different Rails models having their specific views for show and edit. Vitrage allows you inline editing of content pieces.
+Vitrage allows you to store and manage your Rails application content as separated pieces of different types: text, image, slider, several-columned text etc. Pieces are objects of different Rails models, that have their specific views for show and edit actions. Vitrage allows you to edit the content pieces inline.
 
 <img src="http://www.vitroart.ru/upload/information_system_35/4/2/2/item_422/information_items_1242584051.jpg" alt="vitrage of glass" height="600" width="379">
 
