@@ -1,6 +1,14 @@
 $(document).ready ->
   if $(".vtrg-add-new-wrapper").length
 
+    sortable_el = document.getElementById('vitrage-edit')
+    sortable = Sortable.create sortable_el,
+      sort: true
+      handle: ".vtrg-edit-control-move"
+      onUpdate: (evnt) ->
+        # itemEl = evnt.item
+        console.log evnt.oldIndex + ' -> ' + evnt.newIndex
+
     event_provider = $(".vtrg-add-new-wrapper")
 
     toggleEditorBlocker = ($editWrapper, act) ->

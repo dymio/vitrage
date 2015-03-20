@@ -4,6 +4,9 @@
 <div class="vtrg-edit-wrapper" data-id="<%= (slot ? slot.id : 'new') %>">
   <% ['top', 'bottom'].each do |position_class| %>
     <div class="vtrg-edit-control <%= position_class %>">
+      <a href="javascript:void(0)" role="button" rel="move" class="vtrg-edit-control-move" title="<%= t('vitrage.move') %>">
+        <%= evil_icon 'ei-retweet', size: "m" %>
+      </a>
       <a href="javascript:void(0)" role="button" rel="edit" title="<%= t('vitrage.edit') %>">
         <%= evil_icon 'ei-pencil', size: "m" %>
       </a>

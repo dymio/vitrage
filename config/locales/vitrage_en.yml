@@ -2,3 +2,4 @@ en:
   vitrage:
     edit: "Edit"
     destroy: "Delete"
+    move: "Move"

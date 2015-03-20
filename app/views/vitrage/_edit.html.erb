@@ -1,7 +1,9 @@
 <%= evil_icons_sprite %>
-<% owner.vitrage_slots.each do |slot| %>
-  <%= render partial: "vitrage/edit_wraped_piece", locals: { slot: slot } %>
-<% end %>
+<div id="vitrage-edit">
+  <% owner.vitrage_slots.each do |slot| %>
+    <%= render partial: "vitrage/edit_wraped_piece", locals: { slot: slot } %>
+  <% end %>
+</div>
 
 <div class="vtrg-add-new-wrapper">
   <div class="vtrg-new-block-kinds">
