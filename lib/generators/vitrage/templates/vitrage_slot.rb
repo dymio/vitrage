@@ -12,6 +12,7 @@ class VitrageOwnersPiecesSlot < ActiveRecord::Base
 
   private
 
+  # TODO wrap this becausetroubles with updating this code in the future
   def set_correct_order_num
     self.ordn = 1
     if owner
