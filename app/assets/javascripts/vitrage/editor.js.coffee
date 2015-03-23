@@ -2,23 +2,29 @@ $(document).ready ->
   if $(".vtrg-add-new-wrapper").length
 
     # # # SORTABLE module # TODO find correct place for this module
+    sortableo = null
     sortable_el = document.getElementById('vitrage-edit')
-    sortable = Sortable.create sortable_el,
-      sort: true
-      handle: ".vtrg-edit-control-move"
-      onUpdate: (evnt) ->
-        $editWrapper = $(evnt.item)
-        # console.log evnt.oldIndex + ' -> ' + evnt.newIndex
-        $.ajax
-          url: "/vitrage/pieces/" + $editWrapper.data("id") + "/reorder"
-          type: "POST"
-          dataType: "json"
-          data:
-            oldi: evnt.oldIndex
-            newi: evnt.newIndex
-          success: (data, textStatus, jqXHR) ->
-            restoreShowState $editWrapper, data
-          # error: null # TODO
+
+    initSortable = ->
+      if sortableo
+        sortableo.destroy()
+        sortableo = null
+      sortableo = Sortable.create document.getElementById('vitrage-edit'),
+        sort: true
+        handle: ".vtrg-edit-control-move"
+        onUpdate: (evnt) ->
+          $editWrapper = $(evnt.item)
+          # console.log evnt.oldIndex + ' -> ' + evnt.newIndex
+          $.ajax
+            url: "/vitrage/pieces/" + $editWrapper.data("id") + "/reorder"
+            type: "POST"
+            dataType: "json"
+            data:
+              oldi: evnt.oldIndex
+              newi: evnt.newIndex
+            # success: (data, textStatus, jqXHR) ->
+            # error: null # TODO
+    initSortable()
     # # # END OF SORTABLE module
 
     event_provider = $(".vtrg-add-new-wrapper")
@@ -126,9 +132,10 @@ $(document).ready ->
         initEditControl $editWrapper
         event_provider.trigger "vitragecreated", [ $editWrapper ]
         restoreShowState $editWrapper
-      
+        initSortable()
+
       # $blockForm.on "ajax:error" # TODO
-      
+
       $blockForm.on "ajax:complete", (evnt, para1, para2) ->
         toggleEditorBlocker $(@).closest(".vtrg-edit-wrapper"), false
 
@@ -144,7 +151,8 @@ $(document).ready ->
     # --- # --- NEW --- # --- #
     $createAnchors = $(".vtrg-new-block-kinds a")
     $createAnchors.on "ajax:success", (evnt, data, textStatus, jqXHR) ->
-      $(".vtrg-add-new-wrapper").before data
+      # $(".vtrg-add-new-wrapper").before data
+      $("#vitrage-edit").append data
       $editWrapper = $(".vtrg-edit-wrapper:last")
       coverNewFormActions $editWrapper
       event_provider.trigger "vitragenew", [ $editWrapper ]
