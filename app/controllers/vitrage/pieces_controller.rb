@@ -95,6 +95,39 @@ module Vitrage
       end
     end
 
+    def reorder
+      @slot = VitrageOwnersPiecesSlot.find params[:id]
+      if params[:oldi] && params[:newi] &&
+         params[:oldi].present? && params[:newi].present?
+        oldi = params[:oldi].to_i + 1
+        newi = params[:newi].to_i + 1
+        if newi > oldi
+          numset = (oldi..newi)
+          modfunc = -> (oldord) { oldord - 1 }
+        else
+          numset = (newi..oldi)
+          modfunc = -> (oldord) { oldord + 1 }
+        end
+        @slot.owner.vitrage_slots.where(ordn: numset).each do |slot|
+          slot.update_attributes ordn: modfunc.call(slot.ordn) unless slot == @slot
+        end
+        @slot.update_attributes ordn: newi
+        render text: "ok"
+      else
+        render text: "wrong params", status: :unprocessable_entity
+      end
+    end
+
+    def restore_order
+      owners = VitrageOwnersPiecesSlot.all.collect { |vp| vp.owner }.uniq
+      owners.each do |owner|
+        owner.vitrage_slots.each_with_index do |slot, indx|
+          slot.update_attributes ordn: indx + 1
+        end
+      end
+      render text: "ok"
+    end
+
     private
 
     def find_vitrage_piece

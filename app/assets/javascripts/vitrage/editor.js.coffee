@@ -1,13 +1,25 @@
 $(document).ready ->
   if $(".vtrg-add-new-wrapper").length
 
+    # # # SORTABLE module # TODO find correct place for this module
     sortable_el = document.getElementById('vitrage-edit')
     sortable = Sortable.create sortable_el,
       sort: true
       handle: ".vtrg-edit-control-move"
       onUpdate: (evnt) ->
-        # itemEl = evnt.item
-        console.log evnt.oldIndex + ' -> ' + evnt.newIndex
+        $editWrapper = $(evnt.item)
+        # console.log evnt.oldIndex + ' -> ' + evnt.newIndex
+        $.ajax
+          url: "/vitrage/pieces/" + $editWrapper.data("id") + "/reorder"
+          type: "POST"
+          dataType: "json"
+          data:
+            oldi: evnt.oldIndex
+            newi: evnt.newIndex
+          success: (data, textStatus, jqXHR) ->
+            restoreShowState $editWrapper, data
+          # error: null # TODO
+    # # # END OF SORTABLE module
 
     event_provider = $(".vtrg-add-new-wrapper")
 
