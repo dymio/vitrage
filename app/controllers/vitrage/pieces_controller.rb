@@ -7,7 +7,7 @@ module Vitrage
         format.html { render layout: false }
       end
     end
-   
+
     def new
       piece_class = params[:kind]
       unless piece_class &&
@@ -15,18 +15,18 @@ module Vitrage
         piece_class = VitrageOwnersPiecesSlot::PIECE_CLASSES_STRINGS.first
       end
       @piece = VitragePieces.const_get(piece_class).new
-      
+
       respond_to do |format|
         format.html { render layout: false }
       end
     end
-   
+
     def edit
       respond_to do |format|
         format.html { render layout: false }
       end
     end
-   
+
     def create
       wrong_params_here = false
 
@@ -76,7 +76,7 @@ module Vitrage
         # render layout: false
       end
     end
-   
+
     def update
       @piece.update vitrage_piece_params
 
@@ -85,7 +85,7 @@ module Vitrage
         format.js { render text: "" }
       end
     end
-   
+
     def destroy
       @slot = VitrageOwnersPiecesSlot.find params[:id]
       @slot.destroy
@@ -96,25 +96,39 @@ module Vitrage
     end
 
     def reorder
-      @slot = VitrageOwnersPiecesSlot.find params[:id]
-      if params[:oldi] && params[:newi] &&
-         params[:oldi].present? && params[:newi].present?
-        oldi = params[:oldi].to_i + 1
-        newi = params[:newi].to_i + 1
-        if newi > oldi
-          numset = (oldi..newi)
-          modfunc = -> (oldord) { oldord - 1 }
+      moved_slot = VitrageOwnersPiecesSlot.find params[:id]
+      wrong_params = false
+
+      if params[:beforeid].present?
+        if params[:beforeid] == "end"
+          max_ordn = moved_slot.owner.vitrage_slots.maximum(:ordn)
+          moved_slot.update_attributes ordn: max_ordn ? max_ordn + 1 : 1
         else
-          numset = (newi..oldi)
-          modfunc = -> (oldord) { oldord + 1 }
+
+          slot_after_moved = VitrageOwnersPiecesSlot.find_by_id params[:beforeid]
+          if slot_after_moved.present? && slot_after_moved.owner == moved_slot.owner
+            ordn_for_moved = slot_after_moved.ordn
+            all_slots_after_moved = moved_slot.owner.vitrage_slots.
+                                                     where("vitrage_owners_pieces_slots.ordn >= ?", ordn_for_moved).
+                                                     where.not(id: moved_slot.id).
+                                                     order(ordn: :asc)
+            all_slots_after_moved.each do |slot|
+              slot.update_attributes ordn: slot.ordn + 1
+            end
+            moved_slot.update_attributes ordn: ordn_for_moved
+
+          else
+            wrong_params = true
+          end
         end
-        @slot.owner.vitrage_slots.where(ordn: numset).each do |slot|
-          slot.update_attributes ordn: modfunc.call(slot.ordn) unless slot == @slot
-        end
-        @slot.update_attributes ordn: newi
-        render text: "ok"
       else
+        wrong_params = true
+      end
+
+      if wrong_params
         render text: "wrong params", status: :unprocessable_entity
+      else
+        render text: "ok"
       end
     end
 

@@ -13,17 +13,18 @@ $(document).ready ->
         sort: true
         handle: ".vtrg-edit-control-move"
         onUpdate: (evnt) ->
-          $editWrapper = $(evnt.item)
-          # console.log evnt.oldIndex + ' -> ' + evnt.newIndex
+          draggedItem = $(evnt.item)
+          nextItem = draggedItem.next()
+          # console.log "Next item has id = " + nextItem.data("id")
           $.ajax
-            url: "/vitrage/pieces/" + $editWrapper.data("id") + "/reorder"
+            url: "/vitrage/pieces/" + draggedItem.data("id") + "/reorder"
             type: "POST"
             dataType: "json"
             data:
-              oldi: evnt.oldIndex
-              newi: evnt.newIndex
+              beforeid: if nextItem.length then nextItem.data("id") else "end"
             # success: (data, textStatus, jqXHR) ->
             # error: null # TODO
+
     initSortable()
     # # # END OF SORTABLE module
 
@@ -156,6 +157,6 @@ $(document).ready ->
       $editWrapper = $(".vtrg-edit-wrapper:last")
       coverNewFormActions $editWrapper
       event_provider.trigger "vitragenew", [ $editWrapper ]
-    
+
     # $createAnchors.on "ajax:error" # TODO
     # $createAnchors.on "ajax:complete" # TODO
