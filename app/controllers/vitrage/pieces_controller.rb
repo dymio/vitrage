@@ -28,45 +28,52 @@ module Vitrage
     end
 
     def create
-      wrong_params_here = false
+      error_state = nil
 
       # check existance of params
       unless params[:kind] &&
              VitrageOwnersPiecesSlot::PIECE_CLASSES_STRINGS.include?(params[:kind]) &&
              params[:owner_type] &&
              params[:owner_id]
-        wrong_params_here = true
+        error_state = { descr: "Necessary parameters didn't exist error" }
       end
 
       # get the owner of vitrage
-      unless wrong_params_here
+      if error_state.nil?
         @owner = nil
         begin
           @owner = Object.const_get(params[:owner_type]).find params[:owner_id]
         rescue Exception => e
-          wrong_params_here = true
+          error_state = { descr: "Owner find error" }
         end
       end
 
       # create piece
-      unless wrong_params_here
+      if error_state.nil?
         @piece = VitragePieces.const_get(params[:kind]).new
         @piece.assign_attributes vitrage_piece_params
-        wrong_params_here = true unless @piece.save
+        unless @piece.save
+          error_state = {
+            descr: "Piece save error",
+            piece: @piece.class.name.demodulize.underscore,
+            errors: @piece.errors
+          }
+        end
       end
 
       # create vitrage slot
-      unless wrong_params_here
+      if error_state.nil?
         @slot = VitrageOwnersPiecesSlot.new owner: @owner, piece: @piece
         unless @slot.save
-          wrong_params_here = true
+          error_state = { descr: "Slot save error" }
           @piece.destroy
         end
       end
 
-      if wrong_params_here
+      if error_state
         respond_to do |format|
-          format.html { render text: "error", status: :unprocessable_entity }
+          format.html { render json: error_state.merge({ status: 'error' }),
+                        status: :unprocessable_entity }
         end
       else
         respond_to do |format|
@@ -78,11 +85,22 @@ module Vitrage
     end
 
     def update
-      @piece.update vitrage_piece_params
-
-      respond_to do |format|
-        format.html { render text: "" }
-        format.js { render text: "" }
+      if @piece.update(vitrage_piece_params)
+        respond_to do |format|
+          format.html { render text: "" }
+          format.js { render text: "" }
+        end
+      else
+        error_state = {
+          status: 'error',
+          descr: "Piece save error",
+          piece: @piece.class.name.demodulize.underscore,
+          errors: @piece.errors
+        }
+        respond_to do |format|
+          format.html { render json: error_state, status: :unprocessable_entity }
+          format.js { render json: error_state, status: :unprocessable_entity }
+        end
       end
     end
 

@@ -33,6 +33,21 @@ $(document).ready ->
     toggleEditorBlocker = ($editWrapper, act) ->
       $editWrapper.toggleClass 'blocked', act
 
+    showPieceInputsErrors = ($editWrapper, responseText) ->
+      $editWrapper.find("li.input.error").removeClass("error")
+
+      data = null
+      try
+        data = JSON.parse(responseText)
+      catch error
+        a = 12 # at least we tried
+      return true unless data
+
+      if data.piece && data.errors
+        for key, val of data.errors
+          $errorIWrapper = $editWrapper.find "li.input#vitrage_pieces_" + data.piece.toString() + "_" + key.toString() + "_input"
+          $errorIWrapper.addClass "error"
+
     # --- # --- SHOW --- # --- #
     restoreShowState = ($editWrapper, viewdata) ->
       if viewdata
@@ -62,8 +77,11 @@ $(document).ready ->
         event_provider.trigger "vitrageupdated"
         restoreShowState $(@).closest(".vtrg-edit-wrapper")
 
-      # $blockForm.on "ajax:error" # TODO
-      # $blockForm.on "ajax:complete" # TODO
+      $blockForm.on "ajax:error", (evnt, xhr, status, error) ->
+        showPieceInputsErrors $(@).closest(".vtrg-edit-wrapper"), xhr.responseText
+
+      $blockForm.on "ajax:complete", (evnt, para1, para2) ->
+        toggleEditorBlocker $(@).closest(".vtrg-edit-wrapper"), false
 
 
       # cover Cancel action
@@ -135,7 +153,8 @@ $(document).ready ->
         restoreShowState $editWrapper
         initSortable()
 
-      # $blockForm.on "ajax:error" # TODO
+      $blockForm.on "ajax:error", (evnt, xhr, status, error) ->
+        showPieceInputsErrors $(@).closest(".vtrg-edit-wrapper"), xhr.responseText
 
       $blockForm.on "ajax:complete", (evnt, para1, para2) ->
         toggleEditorBlocker $(@).closest(".vtrg-edit-wrapper"), false
